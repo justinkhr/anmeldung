@@ -21,7 +21,7 @@ namespace Anmeldung
         {
             DatabaseConnection databaseConnection = new DatabaseConnection();
             databaseConnection.Connect();
-            for(int i=0; )
+            databaseConnection.FillList(lb_lehrer);
         }
     }
 }

@@ -2,12 +2,14 @@
 using System.Text;
 using MySql.Data.MySqlClient;
 using System.Windows.Forms;
+using System.Data;
 
 namespace Anmeldung
 {
     class DatabaseConnection
     {
         private MySqlConnection _connection;
+        private MySqlCommand _command;
         StringBuilder _connectionString = new StringBuilder();
         public DatabaseConnection()
         {
@@ -27,6 +29,17 @@ namespace Anmeldung
                 _connection = value;
             }
         }
+        public MySqlCommand Command
+        {
+            get
+            {
+                return _command;
+            }
+            set
+            {
+                _command = value;
+            }
+        }
         public void Connect()
         {
             _connection = new MySqlConnection(_connectionString.ToString());
@@ -39,6 +52,17 @@ namespace Anmeldung
                 MessageBox.Show(exception.Message);
             }
         }
+        public void FillList(ListBox lb)
+        {
+            using (MySqlDataAdapter dataAdapter = new MySqlDataAdapter("SELECT LehrerName FROM lehrer", _connection))
+            {
+                DataTable dataTable = new DataTable();
+                dataAdapter.Fill(dataTable);
+                foreach(DataRow row in dataTable.Rows)
+                {
+                    lb.Items.Add(row["LehrerName"]);
+                }
+            }
+        }
     }
-
 }
