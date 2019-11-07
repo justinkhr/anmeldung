@@ -3,6 +3,7 @@ using System.Text;
 using MySql.Data.MySqlClient;
 using System.Windows.Forms;
 using System.Data;
+using System.IO;
 
 namespace Anmeldung
 {
@@ -17,6 +18,15 @@ namespace Anmeldung
             _connectionString.Append("PORT=3306;");
             _connectionString.Append("DATABASE=anmeldung;");
             _connectionString.Append("UID=root;");
+            if (!File.Exists("config.ini"))
+            {
+                File.Create("config.ini");
+                File.AppendAllText("config.ini", _connectionString.ToString());
+            }
+            else
+            {
+                File.AppendAllText("config.ini", _connectionString.ToString());
+            }
         }
         public MySqlConnection Conn
         {
